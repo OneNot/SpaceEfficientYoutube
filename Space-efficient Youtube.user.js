@@ -3,9 +3,10 @@
 // @namespace   1N07
 // @author      1N07
 // @icon        https://i.imgur.com/VgEiyi3.png
+// @icon64      https://i.imgur.com/VgEiyi3.png
 // @description AKA: "Wide Youtube", AKA: "Wide video container" - Uses the page space on youtube more efficiently (especially good for high resolutions)
 // @include     https://www.youtube.com/*
-// @version     2.2.1
+// @version     2.2.2
 // @grant       GM_registerMenuCommand
 // @grant       GM_unregisterMenuCommand
 // @grant       GM_getValue
