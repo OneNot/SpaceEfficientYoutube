@@ -5,7 +5,7 @@ Especially on high-res monitors the default youtube container is ridiculously na
 
 <h2>Home page</h2>
 <h4>Before - After</h4>
-<p><img src="https://i.imgur.com/WOfotn5.png" width="420"> <img src="https://i.imgur.com/ruIz7XC.png" width="420"></p>
+<p><img src="https://i.imgur.com/WOfotn5.png" width="350"> <img src="https://i.imgur.com/ruIz7XC.png" width="350"></p>
 <h4>- Option to hide the channel icons next to the videos on the home page from the settings.</h4>
 
 <h2>Trending page</h2>
