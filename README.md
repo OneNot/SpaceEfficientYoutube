@@ -10,24 +10,24 @@ Especially on high-res monitors the default youtube container is ridiculously na
 
 <h2>Trending page</h2>
 <h4>Before - After</h4>
-<p><img src="https://i.imgur.com/YvtPF9i.png" width="420"> <img src="https://i.imgur.com/KZP8NnP.png" width="420"></p>
+<p><img src="https://i.imgur.com/YvtPF9i.png" width="350"> <img src="https://i.imgur.com/KZP8NnP.png" width="350"></p>
 
 <h2>Subscriptions page</h2>
 <h4>Before - After</h4>
-<p><img src="https://i.imgur.com/jKH9v8l.png" width="420"> <img src="https://i.imgur.com/WU6MfcZ.png" width="420"></p>
+<p><img src="https://i.imgur.com/jKH9v8l.png" width="350"> <img src="https://i.imgur.com/WU6MfcZ.png" width="350"></p>
 
 <h2>Search page</h2>
 <h4>Before - After</h4>
-<p><img src="https://i.imgur.com/SgcmEtP.png" width="420"> <img src="https://i.imgur.com/juTf02G.png" width="420"></p>
+<p><img src="https://i.imgur.com/SgcmEtP.png" width="350"> <img src="https://i.imgur.com/juTf02G.png" width="350"></p>
 
 <h2>Channel page</h2>
 <h4>Before - After</h4>
-<p><img src="https://i.imgur.com/kKvHHVR.png" width="420"> <img src="https://i.imgur.com/t64i8B7.png" width="420"></p>
+<p><img src="https://i.imgur.com/kKvHHVR.png" width="350"> <img src="https://i.imgur.com/t64i8B7.png" width="350"></p>
 Now automatically expands video lists
 
 <h2>Old layout</h2>
 <h4>Before - After</h4>
-<p><img src="https://i.imgur.com/Aw0xjNL.jpg" width="420"> <img src="https://i.imgur.com/or9Qebj.jpg" width="420"></p>
+<p><img src="https://i.imgur.com/Aw0xjNL.jpg" width="350"> <img src="https://i.imgur.com/or9Qebj.jpg" width="350"></p>
 
 
 <h3>Available options are:</h3>
