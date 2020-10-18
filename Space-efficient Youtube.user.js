@@ -6,7 +6,8 @@
 // @icon64      https://i.imgur.com/VgEiyi3.png
 // @description AKA: "Wide Youtube", AKA: "Wide video container" - Uses the page space on youtube more efficiently (especially good for high resolutions)
 // @include     https://www.youtube.com/*
-// @version     2.2.2
+// @version     2.2.3
+// @require     https://openuserjs.org/src/libs/sizzle/GM_config.js
 // @grant       GM_registerMenuCommand
 // @grant       GM_unregisterMenuCommand
 // @grant       GM_getValue
@@ -14,6 +15,185 @@
 // ==/UserScript==
 
 (function() {
+
+    if(true)
+    {
+        var configCSS = `
+			#SEYConfig {
+				width: 320px !important;
+				height: 670px !important;
+				max-height: 100% !important;
+				border: none !important;
+				border-radius: 0 0 0 20px !important;
+				box-shadow: black -1px 1px 20px;
+				position: fixed !important;
+				top: 0 !important;
+				right: 0 !important;
+				left: unset !important;
+				background: #383838 !important;
+			}
+
+			#SEYConfig_wrapper
+			{
+				padding: 10px;
+				background-color: #212121;
+				color: white;
+				background-color: transparent;
+			}
+
+			#SEYConfig .config_var
+			{
+				padding: 1px 20px;
+			}
+
+			#SEYConfig input
+			{
+				background-color: #181818;
+				color: white;
+				border: none;
+				float: left;
+				margin-right: 5px;
+			}
+
+			#SEYConfig input[type="text"]
+			{
+				width: 40px;
+				text-align: center;
+			}
+
+			#SEYConfig input[type="checkbox"]
+			{
+				filter: invert(90%);
+			}
+
+			#SEYConfig .saveclose_buttons
+			{
+				background-color: #181818;
+				color: white;
+				border-color: gray;
+			}
+
+			#SEYConfig .section_header {
+				background: #202020;
+				margin-bottom: 5px;
+			}
+
+			#SEYConfig .section_header_holder {
+				margin-top: 8px;
+				background-color: rgba(0,0,0,0.3);
+				padding: 0 0 5px 0;
+				border-radius: 0 0 10px 10px;
+			}
+
+			#SEYConfig_resetLink { color: white !important; }
+		`;
+    }
+
+    var frame = document.createElement('div');
+    frame.id = "test";
+    document.body.appendChild(frame);
+
+    GM_config.init(
+        {
+            'id': 'SEYConfig', // The id used for this instance of GM_config
+            'title': 'Space-efficient Youtube Config',
+            'fields': // Fields object
+            {
+                'FPPCompOn': // This is the id of the field
+                {
+                    'section': 'Fade++',
+                    'label': 'Fade++ compatibility mode', // Appears next to field
+                    'type': 'checkbox', // Makes this setting a text field
+                    'default': false // Default value if user doesn't change it
+                },
+
+                'HomeVideoContainerWidth':
+                {
+                    'section': 'Home page',
+                    'label': 'Video container width',
+                    'title': 'The width of the container which includes both the thumbnail and the title/other info',
+                    'type': 'unsigned float',
+                    'default': '360'
+                },
+                'ShowChannelIconNextToVideosOnHomePage':
+                {
+                    'label': 'Show channel icon in video container',
+                    'type': 'checkbox',
+                    'default': true
+                },
+
+                'SubVideoContainerWidth':
+                {
+                    'section': 'Subscriptions page',
+                    'label': 'Video container width',
+                    'title': 'The width of the container which includes both the thumbnail and the title/other info',
+                    'type': 'unsigned float',
+                    'default': '210'
+                },
+
+                'TrendingVideoContainerWidth':
+                {
+                    'section': 'Trending page',
+                    'label': 'Video container width',
+                    'title': 'The width of the container which includes both the thumbnail and the title/other info',
+                    'type': 'unsigned float',
+                    'default': '600'
+                },
+                'TrendingVideoContainerHeight':
+                {
+                    'label': 'Video container height',
+                    'title': 'The height of the container. This directly affects thumnail size and how much space is left for the other info',
+                    'type': 'unsigned float',
+                    'default': '138'
+                },
+
+                'HQTN':
+                {
+                    'section': 'Subscriptions & Trending pages',
+                    'label': 'Load high quality thumbnails',
+                    'title': 'The default thumbnail resolution is fitted for the default video container size, so if you use defaults(or smaller) there is no need to enable this.',
+                    'type': 'checkbox',
+                    'default': false
+                },
+
+                'SearchVideoContainerWidth':
+                {
+                    'section': 'Search results page',
+                    'label': 'Video container width',
+                    'title': 'The width of the container which includes both the thumbnail and the title/other info',
+                    'type': 'unsigned float',
+                    'default': '600'
+                },
+                'SearchVideoContainerHeight':
+                {
+                    'label': 'Video container height',
+                    'title': 'The height of the container. This directly affects thumnail size and how much space is left for the other info',
+                    'type': 'unsigned float',
+                    'default': '200'
+                },
+                'HideSearchVideoBadges':
+                {
+                    'label': 'Hide video badges',
+                    'title': 'Hides the little badges like New/4K/CC etc. on the video containers leaving more space for the description',
+                    'type': 'checkbox',
+                    'default': false
+                },
+
+                'AutoExpandChannelVidContainers':
+                {
+                    'section': 'Channel pages',
+                    'label': 'Auto-expand horizontal video lists',
+                    'type': 'checkbox',
+                    'default': false
+                }
+            },
+            'frame': frame,
+            'css': configCSS
+        }
+    );
+
+    //GM_config.open();
+
 
     //===== SETTINGS =====//
     var FPPHandle;
