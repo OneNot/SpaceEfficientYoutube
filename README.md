@@ -2,8 +2,7 @@
 Space-efficient Youtube is a userscript for youtube, meant to be used with a browser extension like <a href="https://www.tampermonkey.net/">Tampermonkey</a>.<br>
 Especially on high-res monitors the default youtube container is ridiculously narrow, but even on 1080p using the script can mean more videos on screen and less space wasted.</h3>
 
-<a href="https://github.com/OneNot/SpaceEfficientYoutube/raw/main/Space-efficient%20Youtube.user.js">Click to install</a>
-
+<a href="https://greasyfork.org/en/scripts/34388-space-efficient-youtube">GreasyFork page</a>
 
 <h2>Home page</h2>
 <h4>Before - After</h4>
