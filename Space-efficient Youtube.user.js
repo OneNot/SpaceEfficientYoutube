@@ -6,13 +6,16 @@
 // @icon64      https://i.imgur.com/VgEiyi3.png
 // @description AKA: "Wide Youtube", AKA: "Wide video container" - Uses the page space on youtube more efficiently (especially good for high resolutions)
 // @include     https://www.youtube.com/*
-// @version     2.2.3
+// @version     2.3
 // @require     https://openuserjs.org/src/libs/sizzle/GM_config.js
 // @grant       GM_registerMenuCommand
 // @grant       GM_unregisterMenuCommand
 // @grant       GM_getValue
 // @grant       GM_setValue
+// @noframes
 // ==/UserScript==
+
+//NOTE: auto-epand notworking with alt url format (/c instead of /channel): Fix it
 
 (function() {
 
@@ -90,7 +93,7 @@
     }
 
     var frame = document.createElement('div');
-    frame.id = "test";
+    frame.id = "SEYConf";
     document.body.appendChild(frame);
 
     GM_config.init(
@@ -169,7 +172,7 @@
                     'label': 'Video container height',
                     'title': 'The height of the container. This directly affects thumnail size and how much space is left for the other info',
                     'type': 'unsigned float',
-                    'default': '200'
+                    'default': '150'
                 },
                 'HideSearchVideoBadges':
                 {
@@ -192,55 +195,44 @@
         }
     );
 
-    //GM_config.open();
+    var refreshAfterSave = false;
+    GM_config.onOpen = function(doc, win, frame) {
+        let saveBtn = $(frame).find("#SEYConfig_saveBtn");
+        saveBtn.before(saveBtn.clone().prop("id", "SEYConfig_saveRefreshBtn").text("Save & Refresh"));
+        $("#SEYConfig_saveRefreshBtn").click(() => {
+            refreshAfterSave = true;
+            $("#SEYConfig_saveBtn").click();
+        });
+    };
+    GM_config.onSave = function(){
+        $("#SEYConfig .reset_holder").prepend(`<span id="SEYCSavedNotif" style="float: left; margin: 0 0 5px 5px; color: green; font-size: 18px; font-weight: bold;">Saved!</span>`).hide().fadeIn(200, () => {
+            if(refreshAfterSave)
+                location.reload();
+            setTimeout(() => {
+                $("#SEYCSavedNotif").fadeOut(200, () => {
+                    $("#SEYCSavedNotif").remove();
+                });
+            }, 1800);
+        });
+    };
+
+    var FPPCompOn = GM_config.get('FPPCompOn');
+    var HomeVideoContainerWidth = CleanNumber(GM_config.get('HomeVideoContainerWidth'));
+    var ShowChannelIconNextToVideosOnHomePage = GM_config.get('ShowChannelIconNextToVideosOnHomePage');
+    var SubVideoContainerWidth = CleanNumber(GM_config.get("SubVideoContainerWidth"));
+    var TrendingVideoContainerWidth = CleanNumber(GM_config.get('TrendingVideoContainerWidth'));
+    var TrendingVideoContainerHeight = CleanNumber(GM_config.get('TrendingVideoContainerHeight'));
+    var HQTN = GM_config.get('HQTN');
+    var SearchVideoContainerWidth = CleanNumber(GM_config.get('SearchVideoContainerWidth'));
+    var SearchVideoContainerHeight = CleanNumber(GM_config.get('SearchVideoContainerHeight'));
+    var HideSearchVideoBadges = GM_config.get('HideSearchVideoBadges');
+    var AutoExpandChannelVidContainers = GM_config.get('AutoExpandChannelVidContainers');
 
 
-    //===== SETTINGS =====//
-    var FPPHandle;
-    var FPPCompOn = GM_getValue("FPPCompOn", false);
-    SetFPPHandle();
-
-    var HomeVideoContainerWidthHandle;
-    var HomeVideoContainerWidth = CleanNumber(GM_getValue("HomeVideoContainerWidth", "360"));
-    SetHomeVideoContainerWidthHandle();
-
-    var ShowChannelIconNextToVideosOnHomePageHandle;
-    var ShowChannelIconNextToVideosOnHomePage = GM_getValue("ShowChannelIconNextToVideosOnHomePage", true);
-    SetShowChannelIconNextToVideosOnHomePageHandle();
-
-    var SubVideoContainerWidthHandle;
-    var SubVideoContainerWidth = CleanNumber(GM_getValue("SubVideoContainerWidth", "210"));
-    SetSubVideoContainerWidthHandle();
-
-    var TrendingVideoContainerWidthHandle;
-    var TrendingVideoContainerWidth = CleanNumber(GM_getValue("TrendingVideoContainerWidth", "600"));
-    SetTrendingVideoContainerWidthHandle();
-
-    var TrendingVideoContainerHeightHandle;
-    var TrendingVideoContainerHeight = CleanNumber(GM_getValue("TrendingVideoContainerHeight", "138"));
-    SetTrendingVideoContainerHeightHandle();
-
-    var HQTNHandle;
-    var HQTN = GM_getValue("HQTN", false);
-    SetHQTNHandle();
-
-    var SearchVideoContainerWidthHandle;
-    var SearchVideoContainerWidth = CleanNumber(GM_getValue("SearchVideoContainerWidth", "600"));
-    SetSearchVideoContainerWidthHandle();
-
-    var SearchVideoContainerHeightHandle;
-    var SearchVideoContainerHeight = CleanNumber(GM_getValue("SearchVideoContainerHeight", "200"));
-    SetSearchVideoContainerHeightHandle();
-
-    var HideSearchVideoBadgesHandle;
-    var HideSearchVideoBadges = GM_getValue("HideSearchVideoBadges", false);
-    SetHideSearchVideoBadgesHandle();
-
-	var AutoExpandChannelVidContainersHandle;
-    var AutoExpandChannelVidContainers = GM_getValue("AutoExpandChannelVidContainers", true);
-    SetAutoExpandChannelVidContainersHandle();
-
-    //===== SETTINGS END =====//
+    GM_registerMenuCommand("Settings", () => {
+		if(!GM_config.isOpen)
+			GM_config.open();
+	});
 
 
     const ratioMultiplier = 16 / 9;
@@ -655,137 +647,4 @@
         head.appendChild(style);
     }
 
-    //=== SETTINGS HANDLE FUCTIONS ===//
-    function SetFPPHandle() {
-        GM_unregisterMenuCommand(FPPHandle);
-
-        FPPHandle = GM_registerMenuCommand("Fade++ Compatibility mode (" + (FPPCompOn ? "On" : "Off") + ") -click to change-", function(){
-            FPPCompOn = !FPPCompOn;
-            GM_setValue("FPPCompOn", FPPCompOn);
-            SetFPPHandle();
-
-            if(confirm('Press "OK" to refresh the page to apply new settings'))
-                location.reload();
-        });
-    }
-    function SetHomeVideoContainerWidthHandle() {
-        GM_unregisterMenuCommand(HomeVideoContainerWidthHandle);
-
-        HomeVideoContainerWidthHandle = GM_registerMenuCommand("[home-page] Video-renderer width (" + HomeVideoContainerWidth + ") -click to change-", function(){
-            HomeVideoContainerWidth = CleanNumber(prompt("Set the width of a single video renderer on the page\nThe current value is: '" + HomeVideoContainerWidth + "'"));
-            GM_setValue("HomeVideoContainerWidth", HomeVideoContainerWidth);
-            SetHomeVideoContainerWidthHandle();
-
-            if(confirm('Press "OK" to refresh the page to apply new settings'))
-                location.reload();
-        });
-    }
-    function SetHQTNHandle() {
-        GM_unregisterMenuCommand(HQTNHandle);
-
-        HQTNHandle = GM_registerMenuCommand("[subs/trending] Load HQ thumbnails (" + (HQTN ? "On" : "Off") + ") -click to change-", function(){
-            HQTN = !HQTN;
-            GM_setValue("HQTN", HQTN);
-            SetHQTNHandle();
-
-            if(confirm('Press "OK" to refresh the page to apply new settings'))
-                location.reload();
-        });
-    }
-    function SetSubVideoContainerWidthHandle() {
-        GM_unregisterMenuCommand(SubVideoContainerWidthHandle);
-
-        SubVideoContainerWidthHandle = GM_registerMenuCommand("[subs-page] Video-renderer width (" + SubVideoContainerWidth + ") -click to change-", function(){
-            SubVideoContainerWidth = CleanNumber(prompt("Set the width of a single video renderer on the page\nThe current value is: '" + SubVideoContainerWidth + "'"));
-            GM_setValue("SubVideoContainerWidth", SubVideoContainerWidth);
-            SetSubVideoContainerWidthHandle();
-
-            if(confirm('Press "OK" to refresh the page to apply new settings'))
-                location.reload();
-        });
-    }
-    function SetTrendingVideoContainerWidthHandle() {
-        GM_unregisterMenuCommand(TrendingVideoContainerWidthHandle);
-
-        TrendingVideoContainerWidthHandle = GM_registerMenuCommand("[trending-page] Video-renderer width (" + TrendingVideoContainerWidth + ") -click to change-", function(){
-            TrendingVideoContainerWidth = CleanNumber(prompt("Set the width of a single video renderer on the page\nThe current value is: '" + TrendingVideoContainerWidth + "'"));
-            GM_setValue("TrendingVideoContainerWidth", TrendingVideoContainerWidth);
-            SetTrendingVideoContainerWidthHandle();
-
-            if(confirm('Press "OK" to refresh the page to apply new settings'))
-                location.reload();
-        });
-    }
-    function SetTrendingVideoContainerHeightHandle() {
-        GM_unregisterMenuCommand(TrendingVideoContainerHeightHandle);
-
-        TrendingVideoContainerHeightHandle = GM_registerMenuCommand("[trending-page] Video-renderer height (" + TrendingVideoContainerHeight + ") -click to change-", function(){
-            TrendingVideoContainerHeight = CleanNumber(prompt("Set the height of a single video renderer on the page\nThe current value is: '" + TrendingVideoContainerHeight + "'"));
-            GM_setValue("TrendingVideoContainerHeight", TrendingVideoContainerHeight);
-            SetTrendingVideoContainerHeightHandle();
-
-            if(confirm('Press "OK" to refresh the page to apply new settings'))
-                location.reload();
-        });
-    }
-    function SetSearchVideoContainerWidthHandle() {
-        GM_unregisterMenuCommand(SearchVideoContainerWidthHandle);
-
-        SearchVideoContainerWidthHandle = GM_registerMenuCommand("[search-results-page] Video-renderer width (" + SearchVideoContainerWidth + ") -click to change-", function(){
-            SearchVideoContainerWidth = CleanNumber(prompt("Set the width of a single video renderer on the page\nThe current value is: '" + SearchVideoContainerWidth + "'"));
-            GM_setValue("SearchVideoContainerWidth", SearchVideoContainerWidth);
-            SetSearchVideoContainerWidthHandle();
-
-            if(confirm('Press "OK" to refresh the page to apply new settings'))
-                location.reload();
-        });
-    }
-    function SetSearchVideoContainerHeightHandle() {
-        GM_unregisterMenuCommand(SearchVideoContainerHeightHandle);
-
-        SearchVideoContainerHeightHandle = GM_registerMenuCommand("[search-results-page] Video-renderer height (" + SearchVideoContainerHeight + ") -click to change-", function(){
-            SearchVideoContainerHeight = CleanNumber(prompt("Set the width of a single video renderer on the page\nThe current value is: '" + SearchVideoContainerHeight + "'"));
-            GM_setValue("SearchVideoContainerHeight", SearchVideoContainerHeight);
-            SetSearchVideoContainerHeightHandle();
-
-            if(confirm('Press "OK" to refresh the page to apply new settings'))
-                location.reload();
-        });
-    }
-    function SetShowChannelIconNextToVideosOnHomePageHandle() {
-        GM_unregisterMenuCommand(ShowChannelIconNextToVideosOnHomePageHandle);
-
-        ShowChannelIconNextToVideosOnHomePageHandle = GM_registerMenuCommand("[home-page] Show channel icons next to videos (" + (ShowChannelIconNextToVideosOnHomePage ? "Yes" : "No") + ") -click to change-", function(){
-            ShowChannelIconNextToVideosOnHomePage = !ShowChannelIconNextToVideosOnHomePage;
-            GM_setValue("ShowChannelIconNextToVideosOnHomePage", ShowChannelIconNextToVideosOnHomePage);
-            SetShowChannelIconNextToVideosOnHomePageHandle();
-
-            if(confirm('Press "OK" to refresh the page to apply new settings'))
-                location.reload();
-        });
-    }
-	function SetAutoExpandChannelVidContainersHandle() {
-        GM_unregisterMenuCommand(AutoExpandChannelVidContainersHandle);
-
-        AutoExpandChannelVidContainersHandle = GM_registerMenuCommand("[channel-page] Auto-expand horizontal video lists (" + (AutoExpandChannelVidContainers ? "Yes" : "No") + ") -click to change-", function(){
-            AutoExpandChannelVidContainers = !AutoExpandChannelVidContainers;
-            GM_setValue("AutoExpandChannelVidContainers", AutoExpandChannelVidContainers);
-            SetAutoExpandChannelVidContainersHandle();
-
-            if(confirm('Press "OK" to refresh the page to apply new settings'))
-                location.reload();
-        });
-    }
-    function SetHideSearchVideoBadgesHandle() {
-        GM_unregisterMenuCommand(HideSearchVideoBadgesHandle);
-
-        HideSearchVideoBadgesHandle = GM_registerMenuCommand("[search-results-page] Hide video badges (" + (HideSearchVideoBadges ? "Yes" : "No") + ") -click to change-", function(){
-            HideSearchVideoBadges = !HideSearchVideoBadges;
-            GM_setValue("HideSearchVideoBadges", HideSearchVideoBadges);
-            SetHideSearchVideoBadgesHandle();
-
-            if(confirm('Press "OK" to refresh the page to apply new settings'))
-                location.reload();
-        });
-    }
 })();
