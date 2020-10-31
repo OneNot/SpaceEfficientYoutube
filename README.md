@@ -34,8 +34,8 @@ Now automatically expands video lists
 <h3>Available options are:</h3>
 <ul>
 <li><b>Fade++ Compatibility mode</b></li>
-<li><b>Video renderer width: Separate settings for Home/Trending/Sub/Search pages (meaning how much space a single video+title takes on the page)</b></li>
-<li><b>Video renderer height: Separate settings for Trending & Search pages (thumbnail height)</li></b>
+<li><b>Video container width: Separate settings for Home/Trending/Sub/Search pages (meaning how much space a single video+title takes on the page)</b></li>
+<li><b>Video container height: Separate settings for Trending & Search pages i.e. thumbnail height (thumbnail width auto calculated to keep ratio)</li></b>
 <li><b>Show/Hide channel icons on the home page video renderers</b></li>
 <li><b>Load HQ thumbnails for Subs & Trending page (by default YT only loads low res thumbnails on subs and trending pages)</b> <i>Not recommended if you use default size thumbnails(subs width: 210px / trending height: 138px)</i></li>
 <li><b>Auto-expand horizontal video containers on channel pages. (by default YT automatically loads only 6 videos no matter how much extra space there is)</b> <i>On 1080p you can turn this off as you won't have enough space to view more than 6 videos at a time anyway.</i></li>
@@ -43,4 +43,5 @@ Now automatically expands video lists
 </ul>
 
 <h4>Find the settings in the Tampermonkey menu.</h4>
-<img src="https://i.imgur.com/PcNA3Iy.png" height="300">
+<img src="https://i.imgur.com/QQ3SShc.png">
+<img src="https://i.imgur.com/UFpHzMU.png">
