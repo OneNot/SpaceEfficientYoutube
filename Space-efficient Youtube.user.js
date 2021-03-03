@@ -6,7 +6,7 @@
 // @icon64      https://i.imgur.com/VgEiyi3.png
 // @description AKA: "Wide Youtube", AKA: "Wide video container" - Uses the page space on youtube more efficiently (especially good for high resolutions)
 // @include     https://www.youtube.com/*
-// @version     2.3.1
+// @version     2.3.4
 // @require     https://openuserjs.org/src/libs/sizzle/GM_config.js
 // @grant       GM_registerMenuCommand
 // @grant       GM_unregisterMenuCommand
@@ -115,11 +115,11 @@ GM_config.init(
 		'type': 'unsigned float',
 		'default': '360'
 	    },
-	    'ShowChannelIconNextToVideosOnHomePage':
+	    'HideChannelIconNextToVideosOnHomePage':
 	    {
-		'label': 'Show channel icon in video container',
+		'label': 'Hide channel icon in video container',
 		'type': 'checkbox',
-		'default': true
+		'default': false
 	    },
 
 	    'SubVideoContainerWidth':
@@ -215,7 +215,7 @@ GM_config.onSave = function(){
 
 var FPPCompOn = GM_config.get('FPPCompOn');
 var HomeVideoContainerWidth = CleanNumber(GM_config.get('HomeVideoContainerWidth'));
-var ShowChannelIconNextToVideosOnHomePage = GM_config.get('ShowChannelIconNextToVideosOnHomePage');
+var HideChannelIconNextToVideosOnHomePage = GM_config.get('HideChannelIconNextToVideosOnHomePage');
 var SubVideoContainerWidth = CleanNumber(GM_config.get("SubVideoContainerWidth"));
 var TrendingVideoContainerWidth = CleanNumber(GM_config.get('TrendingVideoContainerWidth'));
 var TrendingVideoContainerHeight = CleanNumber(GM_config.get('TrendingVideoContainerHeight'));
@@ -364,6 +364,8 @@ if(!!document.getElementById("early-body")) { //if old youtube
 					max-width: none;
 					min-width: 0;
 				}
+
+				ytd-search div.ytd-video-renderer[id="channel-info"] { padding: 3px 0 0 0 !important; }
 			`);
 		}
 
@@ -375,7 +377,7 @@ if(!!document.getElementById("early-body")) { //if old youtube
 				{
 					width: `+HomeVideoContainerWidth+`px;
 				}
-				`+(ShowChannelIconNextToVideosOnHomePage ? `` : `ytd-browse[page-subtype="home"] #avatar-link.ytd-rich-grid-media { display: none; }`)+`
+				`+(HideChannelIconNextToVideosOnHomePage ? `ytd-browse[page-subtype="home"] #avatar-link.ytd-rich-grid-media { display: none; }` : ``)+`
 			`);
 		}
 
@@ -402,8 +404,19 @@ if(!!document.getElementById("early-body")) { //if old youtube
 					width: 100%;
 					height: 100%;
 				}
+
+				/*List layout vid container*/
+				ytd-browse[page-subtype="subscriptions"] #grid-container.ytd-expanded-shelf-contents-renderer > .ytd-expanded-shelf-contents-renderer
+		{ width: 100%; }
+		ytd-browse[page-subtype="subscriptions"] #grid-container.ytd-expanded-shelf-contents-renderer > .ytd-expanded-shelf-contents-renderer div.text-wrapper
+				{ max-width: none; }
 			`);
 		}
+
+	//multiple
+	if(true) {
+	    addGlobalStyle(`#dismissible.ytd-video-renderer { height: 100%; }`);
+	}
 	}
 
 	//video container padding/margin
