@@ -8,7 +8,7 @@ Especially on high-res monitors the default youtube container is ridiculously na
 
 <h2>Home page</h2>
 <h4>Before - After</h4>
-<p><img src="https://i.imgur.com/WOfotn5.png" width="420"> <img src="https://i.imgur.com/ruIz7XC.png" width="420"></p>
+<p><img src="https://i.imgur.com/WOfotn5.png" width="400"> <img src="https://i.imgur.com/ruIz7XC.png" width="400"></p>
 - Option to hide the channel icons next to the videos on the home page from the settings.
 <b>NOTE: Due to a YT update to how the home page renders videos, changing the thumbnail width using the script's methods leaves a bunch of empty space, so I decided to disable that part of the script by default. Therefore the thumbnail sizes on the home page will be as determined by vanilla YT, unless you turn the option back on from the settings.</b>
 <hr>
