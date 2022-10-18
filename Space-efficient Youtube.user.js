@@ -7,7 +7,7 @@
 // @description AKA: "Wide Youtube", AKA: "Wide video container" - Uses the page space on youtube more efficiently (especially good for high resolutions)
 // @license     unlicense
 // @include     https://www.youtube.com/*
-// @version     2.4.3
+// @version     2.4.4
 // @require     https://openuserjs.org/src/libs/sizzle/GM_config.js
 // @grant       GM_registerMenuCommand
 // @grant       GM_unregisterMenuCommand
@@ -185,7 +185,7 @@
                     'label': 'Hide video badges',
                     'title': 'Hides the little badges like New/4K/CC etc. on the video containers leaving more space for the description',
                     'type': 'checkbox',
-                    'default': false
+                    'default': true
                 },
 
                 'VPRecommendedSectionWidth':
@@ -294,6 +294,11 @@
 
                 #content [role="main"][theater-requested_] #columns {
                     box-sizing: border-box;
+                }
+
+                ytd-watch-flexy:not([theater]):not([fullscreen]):not([no-top-margin]) #primary.ytd-watch-flexy, ytd-watch-flexy:not([theater]):not([fullscreen]):not([no-top-margin]) #secondary.ytd-watch-flexy
+                {
+                    padding-top: 5px;
                 }
 			`);
         }
@@ -511,6 +516,16 @@
 
 		//video container padding/margin
 		if(true) {
+            //chapter select
+            if(true) {
+                addGlobalStyle(`
+                    #expandable-metadata.ytd-video-renderer:not(:empty) {
+                        margin: 0;
+                        z-index: 999;
+                    }
+                `);
+            }
+
 			//trending
 			if(true) {
 				addGlobalStyle(`
