@@ -52,8 +52,9 @@ Hover over any option in the settings to get more info about it.
 
 
 <h4>Known Problems</h4>
-- The new chapter system hasn't been addressed in this script yet. The positioning of the chapter system's menu in video containers is a bit wonky and if you have not disabled the video "badges" (4K, CC, etc.), the chapter menu will go over the video container below. -> Partial workaround: disable video badges from the script's settings
-- multi-column recommended videos are not working in non-theatre mode on video pages. -> Workaround: Use theater mode lol
+- The new chapter system should now fit unless you have not disabled the video "badges" (4K, CC, etc.). -> workaround: disable video badges from the script's settings
+- multi-column recommended videos are not working in non-theatre mode on video pages. -> Workaround: Use theater mode or be happy with one column lol
 - Video titles are cut short (title stops like this...) if the video container isn't large enough. -> Workaround: Set a larger video container width in script settings. Also, if you just want to know the full title of a video, you can hover over the title
+- Home and Search results page video container sizing options don't seem to be working properly. -> Workaround: set default values from the script's settings
 
-Known problems will be fixed when I have time and motivation to do so.
+Youtube likes to make their HTML/CSS systems as complicated as possible and do a lot of changes, sometimes even making said changes for only certain countries to test things, so things do occasionally break... Known problems will be fixed when I have time and motivation to do so.
