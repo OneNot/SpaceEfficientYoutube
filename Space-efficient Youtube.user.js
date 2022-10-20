@@ -7,7 +7,7 @@
 // @description AKA: "Wide Youtube", AKA: "Wide video container" - Uses the page space on youtube more efficiently (especially good for high resolutions)
 // @license     unlicense
 // @include     https://www.youtube.com/*
-// @version     2.4.4
+// @version     2.4.5
 // @require     https://openuserjs.org/src/libs/sizzle/GM_config.js
 // @grant       GM_registerMenuCommand
 // @grant       GM_unregisterMenuCommand
@@ -273,7 +273,7 @@
             addGlobalStyle(`
 				/*search*/
 				ytd-search ytd-two-column-search-results-renderer.ytd-search,
-				ytd-search ytd-two-column-search-results-renderer.ytd-search > #primary,
+				ytd-search ytd-two-column-search-results-renderer.ytd-search #primary,
 				/*home*/
 				ytd-browse[page-subtype="home"] #contents.ytd-rich-grid-renderer,
                 /*video*/
