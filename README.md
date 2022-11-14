@@ -10,7 +10,7 @@ Especially on high-res monitors the default youtube container is ridiculously na
 <h4>Before - After</h4>
 <p><img src="https://i.imgur.com/WOfotn5.png" width="400"> <img src="https://i.imgur.com/ruIz7XC.png" width="400"></p>
 - Option to hide the channel icons next to the videos on the home page from the settings.
-<b>NOTE: Due to a YT update to how the home page renders videos, changing the thumbnail width using the script's methods leaves a bunch of empty space, so I decided to disable that part of the script by default. Therefore the thumbnail sizes on the home page will be as determined by vanilla YT, unless you turn the option back on from the settings.</b>
+- Option to enable video container size modding. <sub>Due to how YT now renders the videos on the home page, I can't use all the available space efficiently on all custom video container sizes using only CSS. I made a JS solution that responds to newly added video rows instead. Because of this, you may see some weird behavior with new rows of videos as they get loaded in, but they should settle neatly almost immediately after. If you do not want to change video container sizes, you can leave this feature disabled (which it is by default) to avoid the mentioned issue.</sub>
 <hr>
 <h2>Trending page</h2>
 <h4>Before - After</h4>
@@ -56,7 +56,7 @@ Hover over any option in the settings to get more info about it.
 <li>The new chapter system should now fit unless you have not disabled the video "badges" (4K, CC, etc.). -> workaround: disable video badges from the script's settings</li>
 <li>multi-column recommended videos are not working in non-theatre mode on video pages. -> Workaround: Use theater mode or be happy with one column lol</li>
 <li>Video titles are cut short (title stops like this...) if the video container isn't large enough. -> Workaround: Set a larger video container width in script settings. Also, if you just want to know the full title of a video, you can hover over the title</li>
-<li>Home and Search results page video container sizing options don't seem to be working properly. -> Workaround: set default values from the script's settings</li>
+<li>Search results page video container sizing options don't seem to be working properly. -> Workaround: set default values from the script's settings</li>
 </ul>
 
 Youtube likes to make their HTML/CSS systems as complicated as possible and do a lot of changes, sometimes even making said changes for only certain countries to test things, so things do occasionally break... Known problems will be fixed when I have time and motivation to do so.
