@@ -6,8 +6,8 @@
 // @icon64      https://i.imgur.com/VgEiyi3.png
 // @description AKA: "Wide Youtube", AKA: "Wide video container" - Uses the page space on youtube more efficiently (especially good for high resolutions)
 // @license     unlicense
-// @include     https://www.youtube.com/*
-// @version     2.4.5
+// @match       https://www.youtube.com/*
+// @version     2.4.7
 // @require     https://openuserjs.org/src/libs/sizzle/GM_config.js
 // @grant       GM_registerMenuCommand
 // @grant       GM_unregisterMenuCommand
@@ -300,6 +300,12 @@
                 {
                     padding-top: 5px;
                 }
+
+                /*Community page*/
+                ytd-browse[page-subtype="channels"] #contents.ytd-section-list-renderer
+                {
+                    margin: 0 auto;
+                }
 			`);
         }
 
@@ -508,6 +514,17 @@
 				`);
 			}
 
+            //Community page
+            if(false) {
+                addGlobalStyle(`
+                    ytd-browse[page-subtype="channels"] #contents.ytd-section-list-renderer > .ytd-backstage-items
+                    {
+                        max-width: unset;
+                        width: 852px;
+                    }
+                `);
+            }
+
             //multiple
             if(true) {
                 addGlobalStyle(`#dismissible.ytd-video-renderer { height: 100%; }`);
@@ -656,7 +673,31 @@
         }, 200);
         var waitForArrows, waitForSubsThumbnails;
     }
+
+    //Remove limits on items per row on home page (by moving items outside the rows and removing the rows themselves)
+    if(HomeVideoContainerWidthEnabled)
+    {
+        setInterval(MoveAllVideoItemsOutsideRowsAndRemoveRowsOnHomePage, 100);
+    }
+
     /*============================================================*/
+
+    function MoveAllVideoItemsOutsideRowsAndRemoveRowsOnHomePage()
+    {
+        //Get all rows
+        let rows = document.querySelectorAll("ytd-browse[page-subtype='home'] ytd-rich-grid-renderer > #contents ytd-rich-grid-row.ytd-rich-grid-renderer");
+        for(let i = 0; i < rows.length; i++)
+        {
+            //get the first item in current row, until none can be found
+            let curItem;
+            while((curItem = rows[i].querySelector("ytd-rich-item-renderer.ytd-rich-grid-row")))
+            {
+                //move the item outside the row
+                rows[i].parentNode.insertBefore(curItem, rows[i]);
+            }
+            rows[i].remove();
+        }
+    }
 
     function AutoExpandContainers()
     {
