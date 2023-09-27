@@ -6,6 +6,11 @@ Especially on high-res monitors the default youtube container is ridiculously na
 
 <a href="https://greasyfork.org/en/scripts/34388-space-efficient-youtube">GreasyFork page</a>
 
+<h2>== Script mostly broken! ==</h2>
+The broken parts of the script are piling up as YT continues to make new changes. I have decided to make the script unlisted on greasyfork for now, since frankly, I can't recommend using it in its current state. The changes YT has made make a lot of the features very difficult to fix. YT is using partially obfuscated and generally mysterious CSS variables and JS methods quite aggressively to force the page to behave as they want it to. I will likely rewrite this entire script focusing on only some of the core features at some point in the hopefully near future.
+<hr>
+
+
 <h2>Home page</h2>
 <h4>Before - After</h4>
 <p><img src="https://i.imgur.com/WOfotn5.png" width="400"> <img src="https://i.imgur.com/ruIz7XC.png" width="400"></p>
